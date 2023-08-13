@@ -1,4 +1,4 @@
-import prismadb from '@/prisma/prismadb';
+import prismadb from '@/lib/prismadb';
 
 interface Props {
   params: { storeId: string };
