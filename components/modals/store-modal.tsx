@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
 import { useStoreModal } from '@/hooks/use-store-modal';
+import { redirect } from 'next/navigation';
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -43,7 +44,7 @@ export const StoreModal = () => {
 
       const res = await axios.post('/api/stores', values);
 
-      toast.success('Store created successfully');
+      window.location.assign(`/${res.data.id}`);
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
