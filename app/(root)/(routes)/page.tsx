@@ -14,7 +14,7 @@ const SetupPage = () => {
     }
   }, [isOpen, onOpen]);
 
-  return <div>ABhishek</div>;
+  return null;
 };
 
 export default SetupPage;
