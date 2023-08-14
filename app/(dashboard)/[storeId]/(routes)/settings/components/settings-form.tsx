@@ -20,6 +20,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { toast } from 'react-hot-toast';
+import { useParams, useRouter } from 'next/navigation';
 
 interface Props {
   initialData: Store;
@@ -32,6 +34,9 @@ const formSchema = z.object({
 type SettingsFormValues = z.infer<typeof formSchema>;
 
 const SettingsForm: React.FC<Props> = ({ initialData }) => {
+  const params = useParams();
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -41,7 +46,16 @@ const SettingsForm: React.FC<Props> = ({ initialData }) => {
   });
 
   const onSubmit = async (values: SettingsFormValues) => {
-    console.log(values);
+    try {
+      setLoading(true);
+      await axios.patch(`/api/stores/${params.storeId}`, values);
+      router.refresh();
+      toast.success('Store updated');
+    } catch (error) {
+      toast.error('Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -50,7 +64,7 @@ const SettingsForm: React.FC<Props> = ({ initialData }) => {
         <Button
           disabled={loading}
           variant="destructive"
-          size="icon"
+          size="sm"
           onClick={() => setOpen(true)}
         >
           <Trash className="h-4 w-4" />
