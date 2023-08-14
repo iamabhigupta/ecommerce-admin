@@ -23,6 +23,8 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'react-hot-toast';
 import { useParams, useRouter } from 'next/navigation';
 import AlertModal from '@/components/modals/alert-modal';
+import ApiAlert from '@/components/ui/api-alert';
+import { useOrigin } from '@/hooks/use-origin';
 
 interface Props {
   initialData: Store;
@@ -37,6 +39,8 @@ type SettingsFormValues = z.infer<typeof formSchema>;
 const SettingsForm: React.FC<Props> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
+
+  const origin = useOrigin();
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -121,20 +125,14 @@ const SettingsForm: React.FC<Props> = ({ initialData }) => {
           <Button disabled={loading} type="submit">
             Save changes
           </Button>
-          {/* <div className="pt-6 space-x-2 flex justify-end items-center">
-              <Button
-                disabled={loading}
-                variant="outline"
-                onClick={modalStore.onClose}
-              >
-                Cancle
-              </Button>
-              <Button disabled={loading} type="submit">
-                Continue
-              </Button>
-            </div> */}
         </form>
       </Form>
+      <Separator />
+      <ApiAlert
+        title="NEXT_PUBLIC_API_URL"
+        description={`${origin}/api/${params.storeId}`}
+        variant="Public"
+      />
     </>
   );
 };
