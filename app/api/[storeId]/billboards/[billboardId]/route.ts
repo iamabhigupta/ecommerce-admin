@@ -29,10 +29,6 @@ export async function PATCH(
     }
 
     if (!params.billboardId) {
-      return new NextResponse('Store id is required', { status: 400 });
-    }
-
-    if (!params.billboardId) {
       return new NextResponse('Billboard id is required', { status: 400 });
     }
 
